@@ -9,19 +9,22 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function login(){
+    public function login()
+    {
         return view('auth.pages.login');
     }
 
-    public function signup(LoginRequest $request){
+    public function signup(LoginRequest $request)
+    {
         if (Auth::attempt($request->validated())) {
             return redirect()->route('dashboard');
         }
         return back()->withErrors(['message' => 'Incorrect Data']);
     }
 
-    public function logout(){
+    public function logout()
+    {
         auth()->logout();
-        return redirect()->route('dashboard');
+        return redirect()->route('login');
     }
 }
