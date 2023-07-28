@@ -21,9 +21,9 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-circle nav-icon"></i>
-                        <p>Level 1</p>
+                    <a href="{{ route('users.index') }}" class="nav-link">
+                        <i class="fas fa-users nav-icon"></i>
+                        <p>Users</p>
                     </a>
                 </li>
             </ul>
