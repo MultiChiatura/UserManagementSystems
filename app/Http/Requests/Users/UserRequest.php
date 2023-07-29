@@ -23,7 +23,7 @@ class UserRequest extends FormRequest
     {
         return [
             "name" => "required|string|max:255",
-            "email" => "required|email|max:255|unique:users,email",
+            "email" => "required|email|max:255|unique:users,email,".($this->user ? $this->user->id : NULL),
             "role_id" => "required|integer|exists:roles,id",
             "phone" => "required|string|max:255",
             "position" => "required|string|max:255",

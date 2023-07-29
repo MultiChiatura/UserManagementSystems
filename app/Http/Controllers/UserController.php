@@ -19,7 +19,10 @@ class UserController extends Controller
         $users = User::when(request()->get('keyword'), function($q){
             $q->where('name', "LIKE", "%".request()->get('keyword')."%")
                 ->orWhere('email', "LIKE", "%".request()->get('keyword')."%");
-        })->paginate(10);
+        })
+        ->select('id', 'role_id', 'name', 'email', 'position', 'phone', 'address')
+        ->with('role:id,name')
+        ->paginate(1000);
 
         return view('pages.users.index', [
             'users' => $users
@@ -54,7 +57,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        $user->load('role');
+
+        return view('pages.users.show', ['user' => $user]);
     }
 
     /**
@@ -62,15 +67,21 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $roles = Role::get();
+        return view('pages.users.edit', [
+            'user' => $user,
+            'roles' => $roles
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
-        //
+        $user->update($request->validated());
+
+        return redirect()->route('users.index');
     }
 
     /**
@@ -78,6 +89,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect()->route('users.index');
     }
 }

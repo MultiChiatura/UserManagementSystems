@@ -32,6 +32,7 @@
             <thead>
               <tr>
                 <th>Name</th>
+                <th>Role</th>
                 <th>Email</th>
                 <th>Position</th>
                 <th>Phone</th>
@@ -42,13 +43,19 @@
             <tbody>
                 @foreach ($users as $user)
                     <tr>
-                        <td>{{ $user->name }}</td>
+                        <td><a href="{{ route('users.show', ['user' => $user]) }}">{{ $user->name }}</a></td>
+                        <td>{{ $user->role->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->position }}</td>
                         <td>{{ $user->phone }}</td>
                         <td>{{ $user->address }}</td>
                         <td>
-                            <a href="">Edit</a>
+                            <a href="{{ route('users.edit', ['user' => $user]) }}">Edit</a>
+                            <form action="{{ route('users.destroy', ['user' => $user]) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">DELETE</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
