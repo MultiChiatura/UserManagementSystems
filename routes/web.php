@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Users --------------
     Route::resource('/users', UserController::class)->middleware('role:admin')->names('users');
+
+    // Posts --------------
+    Route::resource('/posts', PostController::class)->except('index', 'show')->middleware('role:manager')->names('posts');
+    Route::resource('/posts', PostController::class)->only('index', 'show')->names('posts');
 
 
 });
